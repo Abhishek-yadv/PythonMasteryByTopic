@@ -1,3 +1,18 @@
+##########################################################################
+###################################################### #*(Formatting)
+#! Using the str.format() Method (str.format Style):
+name = "John"
+age = 30
+formatted_string = "Name: {}, Age: {}".format(name, age)
+print(formatted_string)
+
+#! Using F-strings (Literal String Interpolation):
+name = "John"
+age = 30
+formatted_string = f"Name: {name}, Age: {age}"
+print(formatted_string)
+
+
 ##############################################################################
 ## #* (Find Domain Name From DNS Pointer (PTR) Records Using IP Address)
 """
