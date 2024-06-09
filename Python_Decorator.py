@@ -53,6 +53,8 @@ add(3,4,5)
 the execution time of a function.
 """
 import time
+
+from symbol import decorator
 def timer(func):
     def wrapper(*args, **kwargs):
         start = time.time()
@@ -227,5 +229,140 @@ for _ in range(8):
 ##########################################################
 """ 
 *Question 8:
-88. Write a Python program that implements a decorator to add logging functionality to a function.
+8. Write a Python program that implements a decorator to add logging functionality to a function.
 """
+import logging
+def add_logger(func):
+    def wrapper(*args, **kwargs):
+        print(f"Calling {func.__name__} with args: {args}, kwargs: {kwargs}")
+        result = func(*args, **kwargs)
+        print(f"{func.__name__} returned {result}")
+        return result
+    return wrapper
+
+@add_logger
+def add_numbers(a, b):
+    return a+b
+
+# Call the decorated function
+result = add_numbers(200, 300)
+print("Result:", result)
+
+""" 
+*Question 9
+Write a Python program that implements a decorator to handle exceptions
+raised by a function and provide a default response.
+"""
+def handle_exceptions(default_response):
+    def decorator(func):
+        def wrapper(*arg, **kargs):
+            try:
+                return func(*arg, **kargs)
+            except Exception as e:
+                print(f"Exception occurred: {e}")
+                return default_response
+        return wrapper
+    return decorator
+@handle_exceptions(default_response="An error occurred!")
+def division(a,b):
+    return a/b
+result = division(5,0)
+print(result)
+
+
+""" 
+*Question 10
+10. Write a Python program that implements a decorator
+to enforce type checking on the arguments of a function.
+"""
+def my_datatype(datatype):
+    def my_decorator(func):
+        def wrapper(*arg, **kwargs):
+            if type(arg[0]) == datatype:
+                return "Ye nhi chalega re"
+            else:
+                return func(*arg, **kwargs)
+        return wrapper
+    return my_decorator
+
+@my_datatype(str)
+def func(a, b):
+    return a+b
+result = func(1,2)
+print(result)
+
+""" 
+*Question 11
+11. Write a Python program that implements a decorator to
+measure the memory usage of a function. 
+"""
+import tracemalloc
+def measure_memory_usage(func):
+    def wrapper(*args, **kwargs):
+        tracemalloc.start()
+        result = func(*args, **kwargs)
+        snapshot = tracemalloc.take_snapshot()
+        top_stats = snapshot.statistics("lineno")
+        # Print the top memory-consuming lines
+        print(f"Memory usage of {func.__name__}:")
+        for stat in top_stats[:5]:
+            print(stat)
+        return result
+    return wrapper
+
+@measure_memory_usage
+def calculate_factorial(n):
+    if n == 0:
+        return 1
+    else:
+        return n * calculate_factorial(n - 1)
+
+result = calculate_factorial(5)
+print("Factorial:", result)
+
+""" 
+*Question 12
+# 12. Write a Python program that implements a decorator
+to provide caching with expiration time for a function.
+"""
+import time
+def cache_with_expiry(expiry_time):
+    def decorator(func):
+        cache = {}
+        def wrapper(*args, **kwargs):
+            # Create a cache key from function arguments
+            key = (args, frozenset(kwargs.items()))
+            current_time = time.time()
+            if key in cache:
+                value, timestamp = cache[key]
+                if current_time - timestamp < expiry_time:
+                    print("Retrieving result from cache...")
+                    return value
+            # Calculate the result and cache it
+            result = func(*args, **kwargs)
+            cache[key] = (result, current_time)
+            return result
+        return wrapper
+    return decorator
+
+# Example usage
+@cache_with_expiry(expiry_time=3)  # Cache expiry time set to 5 seconds
+def calculate_multiply(x, y):
+    """Calculate the product of two numbers."""
+    print("Calculating product of two numbers...")
+    return x * y
+
+# Call the decorated function multiple times
+print(calculate_multiply(23, 5))  # Calculation is performed
+print(calculate_multiply(23, 5))  # Result is retrieved from cache
+time.sleep(3)
+print(calculate_multiply(23, 5))  # Calculation is performed (cache expired)
+
+def func(*args, **kwargs):
+    result = (args, kwargs.items())
+    for k in args:
+        print(k)
+func(2,3)
+            
+
+
