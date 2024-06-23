@@ -208,15 +208,172 @@ print(palindrome("hello"))           # False
 print(palindrome("A man a plan a canal Panama")) # True
 
 
+#######################################################################
+""" 13. Write a Python function that prints out the first n rows of Pascal's triangle.
+Note: Pascal's triangle is an arithmetic and geometric figure first imagined by Blaise Pascal."""
+[1]                                                                                                           
+[1, 1]                                                                                                        
+[1, 2, 1]                                                                                                     
+[1, 3, 3, 1]                                                                                                  
+[1, 4, 6, 4, 1]                                                                                               
+[1, 5, 10, 10, 5, 1] 
 
 
+#######################################################################
+""" 14. Write a Python function to check whether a string is a pangram or not.
+Note : Pangrams are words or sentences containing every letter of the alphabet at least once.
+For example : "The quick brown fox jumps over the lazy dog."""
+# 1st method
+import string
+def pangram(s: str) -> bool:
+    alphabet = string.ascii_lowercase
+    return all(letter in s.lower() for letter in alphabet)
+
+# Testing the function
+print(pangram("The quick brown fox jumps over the lazy dog"))  # Should return True
+print(pangram("Hello World"))  # Should return False
 
 
+# 2nd method
+import string
+def pangram(s: str) -> list:
+    my_list = []
+    alphabet = string.ascii_lowercase
+    for k in alphabet:
+        if k in set(s):
+            my_list.append(k)
+    return my_list == list(alphabet)
+print(pangram("The quick brown fox jumps over the lazy dog"))  # Should return True
+print(pangram("Hello World"))  # Should return False
+
+# 3rd method
+import string
+def pangram(s: str) -> bool:
+    alphabet = string.ascii_lowercase
+    s = s.lower()  # Convert the input string to lowercase
+    for letter in alphabet:
+        if letter not in s:
+            return False
+    return True
+# Testing the function
+print(pangram("The quick brown fox jumps over the lazy dog"))  # Should return True
+print(pangram("Hello World"))  # Should return False
 
 
+#######################################################################
+""" 15. Write a Python program that accepts a hyphen-separated sequence of words
+as input and prints the words in a hyphen-separated sequence after sorting them alphabetically.
+Sample Items : green-red-yellow-black-white Expected Result : black-green-red-white-yellow."""
+def sort_func(s:str):
+    words = s.split('-')
+    words.sort()
+    return "-".join(words)
+print(sort_func("green-red-yellow-black-white"))
+
+#######################################################################
+""" 16. Write a Python function to create and print a list where the values are the squares
+of numbers between 1 and 30 (both included).."""
+import time
+start = time.time()
+def square_func():
+    return [i**2 for i in range(1,31)]
+print(square_func())
+print(start - time.time())
+
+import time
+start = time.time()
+def square_func():
+    return (i**2 for i in range(1,31))
+print(list(square_func()))
+print(start - time.time())
+
+#######################################################################
+# 17. Write a Python program to create a chain of function decorators (bold, italic, underline etc.)...
+def bold(func):
+    def wrapper():
+        return "<b>" + func() + "<b>"
+    return wrapper
+
+def italic(func):
+    def wrapper():
+        return "<i>" + func() + "<i>"
+    return wrapper
+
+def underline(func):
+    def wrapper():
+        return "<u>" + func() + "<u>"
+    return wrapper
+
+@bold
+@italic
+@underline
+def func():
+    return "hello world"
+print(func())
 
 
+#######################################################################
+# 18. Write a Python program to execute a string containing Python code.
+def exe_func(code):
+    return exec(code)
+mycode = 'print("hello world")'
+exe_func(mycode)
 
+code = """
+def mutiply(x,y):
+    return x*y
+
+print('Multiply of 2 and 3 is:',mutiply(2,3))
+"""
+exe_func(code)
+
+#######################################################################
+# 19. Write a Python program to access a function inside a function..
+def ins_func(a):
+    def inner_func(b):
+        nonlocal a
+        a = a+1
+        return a+b
+    return inner_func
+
+func = ins_func(4)
+print(func(7))
+
+#######################################################################
+# 20. Write a Python program to detect the number of local variables declared in a function.
+def dec(func):
+    def wrapper():
+        result = func()
+        return "result: {} And total number of local variable in function is:{}".format(result, len(locals()))
+    return wrapper
+
+@dec
+def test():
+    a = 10
+    b = 10
+    return a+b
+print(test())
+
+#######################################################################
+# 21. Write a Python program to detect the number of local variables declared in a function.
+from time import sleep
+import math
+
+def delay(fn, ms, *args):
+    sleep(ms / 1000)    
+    return fn(*args)
+
+print("Square root after specific milliseconds:") 
+print(delay(lambda x: math.sqrt(x), 100, 16))
+print(delay(lambda x: math.sqrt(x), 1000, 100))
+print(delay(lambda x: math.sqrt(x), 2000, 25100))
+
+import math
+print((lambda x: math.sqrt(x))(25100))
+
+
+#######################################################################
+# 22. Provide an implementation for zip function using list comprehensions
 import faker
 m = faker.Faker()
 content = """
@@ -250,13 +407,13 @@ def word_wrap(filename, width):
 word_wrap("sample.txt", 30)
 
 #######################################################################
-# 7th. Provide an implementation for zip function using list comprehensions
+# 23. Provide an implementation for zip function using list comprehensions
 def zip(x, y):
     return [(x[i], y[i]) for i in range(min(len(x), len(y)))]
 print(zip([1, 2, 3], ["a", "b", "c"]))
 
 #######################################################################
-""" 8th. Python provides a built-in function map that applies a function to each element of a list.
+""" 24. Python provides a built-in function map that applies a function to each element of a list.
 # Provide an implementation for map using list comprehensions """
 def square(x): return x * x
 def map(func, lst):
@@ -265,7 +422,7 @@ print(map(square, range(5)))
 
 #######################################################################
 """ 
-9th.Python provides a built-in function filter(f, a) that returns items of the list a for which
+25.Python provides a built-in function filter(f, a) that returns items of the list a for which
 f(item) returns true. Provide an implementation for filter using list comprehensions."""
 def even(x): return x %2 == 0
 def filter(func, iter):
@@ -274,7 +431,7 @@ print(filter(even, range(10)))
 
 #######################################################################
 """
-10th. Write a function enumerate that takes a list and returns a list of tuples containing
+26. Write a function enumerate that takes a list and returns a list of tuples containing
 (index,item) for each item in the list.
 """
 def enumerate(iter):
@@ -283,7 +440,7 @@ print(enumerate(["a", "b", "c"]))
 
 #######################################################################
 """
-11th: Write a function array to create an 2-dimensional array. The function should take both dimensions
+27: Write a function array to create an 2-dimensional array. The function should take both dimensions
 as arguments. Value of each element can be initialized to None:.
 """
 def create_2d_array(rows, cols):
@@ -296,7 +453,7 @@ for row in array:
 
 #######################################################################
 """
-12th: Write a function triplets that takes a number n as argument and returns a list of triplets such
+28: Write a function triplets that takes a number n as argument and returns a list of triplets such
 that sum of first two elements of the triplet equals the third element using numbers below n. Please note that (a,
 b, c) and (b, a, c) represent same triplet. """
 def triplets(n):
@@ -310,7 +467,7 @@ def triplets(n):
 print(triplets(5))
 
 #######################################################################
-#13th Write a python function parse_csv to parse csv (comma separated values) files.
+# 29 Write a python function parse_csv to parse csv (comma separated values) files.
 def parse_csv(filename):
     with open(filename, 'r') as file:
         content = file.read()
@@ -322,7 +479,7 @@ print(parse_csv('a.csv'))
 
 
 #######################################################################
-# 14th Generalize the above implementation of csv parser to support any delimiter and comments.
+# 30. Generalize the above implementation of csv parser to support any delimiter and comments.
 def parse(filename, delimiter=',', comment_char='#'):
     with open(filename, 'r') as file:
         lines = file.readlines()
@@ -340,7 +497,7 @@ print(parse('a.txt', '!', '#'))
 
 #######################################################################
 """
-15th. Write a function mutate to compute all words generated by a single mutation on a given word. A
+31. Write a function mutate to compute all words generated by a single mutation on a given word. A
 mutation is defined as inserting a character, deleting a character, replacing a character, or swapping 2 consecutive
 characters in a string. For simplicity consider only letters from a to z
 """
@@ -379,7 +536,7 @@ print('helol' in words)  # True
 
 #######################################################################
 """
-16th. Write a function nearly_equal to test whether two strings are nearly equal. Two strings a and
+32. Write a function nearly_equal to test whether two strings are nearly equal. Two strings a and
 b are nearly equal when a can be generated by a single mutation on b.
 """
 def mutate(word):
