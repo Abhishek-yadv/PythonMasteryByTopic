@@ -320,8 +320,81 @@ Numbers in sorted form:
 original_str = "sdf 23 safs8 5 sdfsd8 sdfs 56 21sfs 20 5"
 
 lambda_fun = lambda strn: sorted([int(x) for x in strn.split() if x.isdigit() and int(x) > len([int(x) for x in strn.split() if x.isdigit()])])
-
 result = lambda_fun(original_str)
 print("Numbers in sorted form:")
 print(result)
+
+###################################################################
+"""
+21. Write a Python program that multiplies each number in a list with a given number
+using lambda functions.
+Print the results.
+Original list: [2, 4, 6, 9, 11]
+Given number: 2
+Result:
+4 8 12 18 22
+"""
+lambda_func = lambda lst, num:[x*num for x in lst]
+print(lambda_func([2, 4, 6, 9, 11], 2))
+
+
+###################################################################
+"""
+22. Write a Python program that sums the length of a list of names after removing
+those that start with lowercase letters. Use the lambda function.
+Result:
+16
+"""
+sample_names = ['sally', 'Dylan', 'rebecca', 'Diana', 'Joanne', 'keith']
+sample_names = list(filter(lambda el: el[0].isupper() and el[1:].islower(), sample_names))
+print("Result:")
+print(len(''.join(sample_names)))
+
+###################################################################
+"""
+23. Write a Python program to calculate the sum of the positive and negative numbers 
+of a given list of numbers using the lambda function.
+Original list: [2, 4, -6, -9, 11, -12, 14, -5, 17]
+Sum of the positive numbers: -32
+Sum of the negative numbers: 48
+"""
+lambda_func = lambda lst: "Sum of the positive numbers: {}\
+                            \nSum of the negative numbers: {}".format(sum([x for x in lst if x <0]), sum([x for x in lst if x>0]))
+print(lambda_func([2, 4, -6, -9, 11, -12, 14, -5, 17]))
+
+###################################################################
+"""
+24. Write a Python program to find numbers within a given range where
+every number is divisible by every digit it contains.
+Sample Output:
+[1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 15, 22]
+"""
+def divisible_by_digits(start_num, end_num):
+    return [n for n in range(start_num, end_num + 1) if not any(map(lambda x: int(x) == 0 or n % int(x) != 0, str(n)))]
+print(divisible_by_digits(1, 22))
+
+###################################################################
+"""
+25. Write a Python program to create the next bigger number by
+rearranging the digits of a given number.
+Original number: 12
+Next bigger number: 21
+Original number: 10
+Next bigger number: False
+Original number: 201
+Next bigger number: 210
+Original number: 102
+Next bigger number: 120
+Original number: 445
+Next bigger number: 454
+"""
+from itertools import permutations
+next_bigger_number = lambda n: min((int(''.join(p)) for p in permutations(str(n)) if int(''.join(p)) > n), default=False)
+# Test cases
+numbers = [12, 10, 201, 102, 445]
+results = {number: next_bigger_number(number) for number in numbers}
+for original, next_bigger in results.items():
+    print(f"Original number: {original}")
+    print(f"Next bigger number: {next_bigger}")
+
 
